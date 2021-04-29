@@ -1,42 +1,139 @@
-public class People {
-    private String nation, type, tribe;
-    private int lifePoints;
+/**
+ * Used to store, set, and get various values for individual player characters.
+ *
+ * It is also used to change each characters life point value, and determine whether or not a player is still alive.
+ *
+ * getDescription = player type (healer, warrior, or wizard)
+ */
+public abstract class People
+{
+    private String personName;
+    private String myNation;
+    private String myTribe;
+    private PeopleType me;
+    protected String myDescription;
+    private int myLifePoints;
+    private boolean dead;
+    public final int MAX_LIFEPOINTS = 100;
+    private String[] data;
 
-    public People(String nation, String tribe, String playerType) {
-        this.lifePoints = 100;
-        this.nation = nation;
-        this.type = playerType;
-        this.tribe = tribe;
-        getData();
+
+    /**
+     * @param nation
+     * Stores the String name of a nation
+     * @param tribe
+     * Stores the String name of a player's tribe
+     * @param person
+     * Reference to PeopleType, used to check player type (healer, warrior, wizard)
+     * @param lifePoints
+     * Stores life point value of a player
+     */
+    public People(String nation, String tribe, PeopleType person, int lifePoints)
+    {
+        myNation = nation;
+        myTribe = tribe;
+        me = person;
+        myDescription = me.getDescription();
+        myLifePoints = lifePoints;
+        dead = false;
     }
 
-    public String[] getData() {
-        String[] data;
-        return data = new String[]{String.valueOf(lifePoints), nation, tribe, type};
+    /**
+     * Once life points hits 0, sets player as dead
+     */
+    public String[] getData()
+    {
+        return data = new String[]{String.valueOf(myLifePoints), myNation, myTribe, myTribe};
     }
 
 
-    public void setNation(String nation) {
-        this.nation = nation;
+    public void setDead()
+    {
+        dead = true;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    /**
+     * @return
+     * Returns current dead value for player (True or False)
+     */
+    public boolean getDead()
+    {
+        return dead;
     }
 
-    public String getNation() {
-        return nation;
+    /**
+     * @return
+     * Gets player type
+     */
+    public PeopleType getType()
+    {
+        return me;
     }
 
-    public String getType() {
-        return type;
+    /**
+     * @return
+     * Gets player tribe
+     */
+    public String getTribe()
+    {
+        return myTribe;
     }
 
-    public int getLifePoints() {
-        return lifePoints;
+    /**
+     * @return
+     * Gets player nation
+     */
+    public String getNation()
+    {
+        return myNation;
     }
 
-    public void setLifePoints(int lifePoints) {
-        this.lifePoints = lifePoints;
+    /**
+     * @return
+     * Check if player life point value is greater then 0
+     */
+    public Boolean isPersonAlive()
+    {
+        return (myLifePoints > 0);
+    }
+
+    /**
+     * @return
+     * Get current life point value
+     */
+    public int getLifePoints()
+    {
+        return myLifePoints;
+    }
+
+    /**
+     * @param points
+     * If current life point value exceeds max life points, set it back to the max.
+     */
+    public void modifyLifePoints(int points) {
+        myLifePoints += points;
+        if(myLifePoints > MAX_LIFEPOINTS){
+            myLifePoints = MAX_LIFEPOINTS;
+        }
+    }
+
+    /**
+     * @param otherPerson
+     * Reference to opponent
+     * @return
+     * abstract for PlayerType (ex: PerezHealer) classes
+     */
+    public abstract int encounterStrategy(People otherPerson);
+
+    /**
+     * @return
+     * returns a String profile of the player (nation, tribe, player name, player type, and their remaining life points.
+     */
+    public String toString()
+    {
+        String result = new String( myNation + "\t" +  myTribe + "\t" + me
+                + "\t" + myDescription + "\t" + myLifePoints + " ");
+        return result;
     }
 }
+
