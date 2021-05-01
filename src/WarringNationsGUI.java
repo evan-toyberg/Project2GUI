@@ -3,7 +3,8 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class WarringNationsGUI extends Thread {
-    private JButton button;
+    private JButton rollDiceButton;
+    private JButton continueButton;
     private JPanel panel1;
     private JList player1Stats;
     private JList player2Stats;
@@ -12,6 +13,9 @@ public class WarringNationsGUI extends Thread {
     private JLabel nation1Text;
     private JLabel nation2Text;
     private JLabel vs;
+    private JLabel p1DamageTakenLabel = new JLabel();
+    private JLabel p2DamageTakenLabel = new JLabel();
+
 
     // simulate PlayerType enum
     public final static String WIZARD = "Wizard";
@@ -33,9 +37,14 @@ public class WarringNationsGUI extends Thread {
         frame.setVisible(true);
     }
 
-    public JButton getButton()
+    public JButton getRollDiceButton()
     {
-        return this.button;
+        return this.rollDiceButton;
+    }
+
+    public JButton getContinueButton()
+    {
+        return this.continueButton;
     }
 
     /**
@@ -61,13 +70,39 @@ public class WarringNationsGUI extends Thread {
 
         nation1Text.setText(player1.getNation() + " " + player1.getType());
         nation2Text.setText(player2.getNation() + " " + player2.getType());
-        button.addActionListener(e ->
-        {
-            new PostEncounterGUI(player1, player2);
+
+        rollDiceButton.addActionListener(e -> {
+            postEncounter(player1, player2);
+            rollDiceButton.setEnabled(false);
+            continueButton.setEnabled(true);
+
+        });
+
+
+        continueButton.addActionListener(e -> {
+            rollDiceButton.setEnabled(true);
+            continueButton.setEnabled(false);
             world.war();
         });
     }
 
+    public void postEncounter(People player1, People player2)
+    {
+        this.player1 = player1;
+        this.player2 = player2;
+
+        /*int p1DamageTaken = random(player1) / 2;
+        int p2DamageTaken = random(player2) / 2;
+
+        player1.setLifePoints(player1.getLifePoints() - p1DamageTaken);
+        player2.setLifePoints(player2.getLifePoints() - p2DamageTaken);*/
+
+        player1Stats.setListData(player1.getData());
+        player2Stats.setListData(player2.getData());
+
+        this.p1DamageTakenLabel.setText(player1.getNation() + " " + player1.getType() + " Took 10 Damage");
+        this.p2DamageTakenLabel.setText(player2.getNation() + " " +  player2.getType() + " Took 10 Damage");
+    }
 
 
     /**

@@ -7,7 +7,7 @@ import java.util.*;
  * Prints out the surviving nation or no nations.
  * Operates the damage of the two players.
  */
-public class World extends WarringNationsGUI
+public class World
 {
     private final int worldLifePoints = 9000;
     private final int numberOfRounds = 100000;
@@ -240,9 +240,8 @@ public class World extends WarringNationsGUI
         this.combatantIndex = 0;
         while(combatantIndex < numberOfCombatants)
         {
-
             gui.update(worldCreatedPeople.get(combatants.get(combatantIndex)), worldCreatedPeople.get(combatants.get(combatantIndex+1)));
-            gui.getButton().addActionListener(e -> {
+            gui.getContinueButton().addActionListener(e -> {
                 encounter(combatants.get(combatantIndex), combatants.get(combatantIndex+1));
                 combatantIndex = combatantIndex + 2;
             });
