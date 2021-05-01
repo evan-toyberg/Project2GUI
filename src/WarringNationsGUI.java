@@ -99,7 +99,6 @@ public class WarringNationsGUI {
 
         this.p1DamageTakenLabel.setText(player1.getNation() + " " + player1.getType() + " Took " + p1DamageTaken + " Damage");
         this.p2DamageTakenLabel.setText(player2.getNation() + " " +  player2.getType() + " Took " + p2DamageTaken + " Damage");
-
     }
 
 
