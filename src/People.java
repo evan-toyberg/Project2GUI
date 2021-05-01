@@ -12,7 +12,7 @@ public class People {
 
     public String[] getData() {
         String[] data;
-        return data = new String[]{String.valueOf(lifePoints), nation, tribe, type};
+        return data = new String[]{lifePoints + "/100", nation, tribe, type};
     }
 
 

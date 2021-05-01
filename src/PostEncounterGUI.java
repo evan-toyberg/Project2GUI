@@ -42,7 +42,7 @@ public class PostEncounterGUI {
     }
 
     Random rand = new Random();
-    private int random(People player) {
+    public int random(People player) {
         return rand.nextInt(player.getLifePoints());
     }
 

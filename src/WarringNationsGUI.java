@@ -1,16 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Random;
 
 public class WarringNationsGUI {
-    private JButton button;
+    private JButton rollDiceButton;
+    private JButton continueButton;
     private JPanel panel1;
-    private JList player1Stats;
-    private JList player2Stats;
+    private JList<String> player1Stats;
+    private JList<String> player2Stats;
+    private JLabel p1DamageTakenLabel = new JLabel();
+    private JLabel p2DamageTakenLabel = new JLabel();
     private JLabel player1Image;
     private JLabel player2Image;
     private JLabel nation1Text;
     private JLabel nation2Text;
     private JLabel vs;
+
 
     // simulate PlayerType enum
     public final static String WIZARD = "Wizard";
@@ -29,12 +35,31 @@ public class WarringNationsGUI {
         frame.setSize(1200, 800);
         frame.setVisible(true);
 
-        button.addActionListener(e -> {
-            new PostEncounterGUI(player1, player2);
+
+        rollDiceButton.addActionListener(e -> {
             update(player1, player2);
-            Main.nextPlayers();
+            postEncounter(player1, player2);
+
+            rollDiceButton.setEnabled(false);
+            continueButton.setEnabled(true);
+
         });
+
+
+        continueButton.addActionListener(e -> {
+            Main.nextPlayers();
+            rollDiceButton.setEnabled(true);
+            continueButton.setEnabled(false);
+        });
+
+
     }
+
+    Random rand = new Random();
+    public int random(People player) {
+        return rand.nextInt(player.getLifePoints());
+    }
+
 
     /**
      * This method will update the GUI based on the current encounter.
@@ -54,11 +79,28 @@ public class WarringNationsGUI {
         player1Stats.setListData(player1.getData());
         player2Stats.setListData(player2.getData());
 
-
         nation1Text.setText(player1.getNation() + " " + player1.getType());
         nation2Text.setText(player2.getNation() + " " + player2.getType());
     }
 
+    public void postEncounter(People player1, People player2)
+    {
+        this.player1 = player1;
+        this.player2 = player2;
+
+        int p1DamageTaken = random(player1) / 2;
+        int p2DamageTaken = random(player2) / 2;
+
+        player1.setLifePoints(player1.getLifePoints() - p1DamageTaken);
+        player2.setLifePoints(player2.getLifePoints() - p2DamageTaken);
+
+        player1Stats.setListData(player1.getData());
+        player2Stats.setListData(player2.getData());
+
+        this.p1DamageTakenLabel.setText(player1.getNation() + " " + player1.getType() + " Took " + p1DamageTaken + " Damage");
+        this.p2DamageTakenLabel.setText(player2.getNation() + " " +  player2.getType() + " Took " + p2DamageTaken + " Damage");
+
+    }
 
 
     /**
@@ -91,6 +133,4 @@ public class WarringNationsGUI {
             playerImage.setIcon(new ImageIcon(image));
 
     }
-
-
 }
