@@ -6,15 +6,15 @@ public class WarringNationsGUI extends Thread {
     private JButton rollDiceButton;
     private JButton continueButton;
     private JPanel panel1;
-    private JList player1Stats;
-    private JList player2Stats;
+    private JList<String> player1Stats;
+    private JList<String> player2Stats;
     private JLabel player1Image;
     private JLabel player2Image;
     private JLabel nation1Text;
     private JLabel nation2Text;
     private JLabel vs;
-    private JLabel p1DamageTakenLabel = new JLabel();
-    private JLabel p2DamageTakenLabel = new JLabel();
+    private JLabel p1DamageTakenLabel;
+    private JLabel p2DamageTakenLabel;
 
 
     // simulate PlayerType enum
@@ -66,7 +66,6 @@ public class WarringNationsGUI extends Thread {
         // show player stats in JList
         player1Stats.setListData(player1.getData());
         player2Stats.setListData(player2.getData());
-
 
         nation1Text.setText(player1.getNation() + " " + player1.getType());
         nation2Text.setText(player2.getNation() + " " + player2.getType());
