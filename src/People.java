@@ -43,7 +43,9 @@ public abstract class People
      */
     public String[] getData()
     {
-        return data = new String[]{String.valueOf(myLifePoints), myNation, myTribe, myTribe};
+        return data = new String[]{
+                "Life Points: " + myLifePoints + "/100", "Nation: " + myNation, "Tribe: " + myTribe, "PlayerType: " + me
+        };
     }
 
 
@@ -111,9 +113,9 @@ public abstract class People
      * If current life point value exceeds max life points, set it back to the max.
      */
     public void modifyLifePoints(int points) {
-        myLifePoints += points;
+        this.myLifePoints += points;
         if(myLifePoints > MAX_LIFEPOINTS){
-            myLifePoints = MAX_LIFEPOINTS;
+            this.myLifePoints = MAX_LIFEPOINTS;
         }
     }
 

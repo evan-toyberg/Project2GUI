@@ -17,6 +17,8 @@ public class World
     private ArrayList<People> Player2s = new ArrayList<>();
     private WarringNationsGUI gui = new WarringNationsGUI();
     private int combatantIndex;
+    private Integer p1damage;
+    private Integer p2damage;
 
     //Random generator;
     // Use Dice.roll(int sides) instead of random number generator
@@ -47,12 +49,9 @@ public class World
             worldSurvivingPeople.clear();
             worldSurvivingPeople.addAll(getWorldSurvivingPeople());
             survivingNations.addAll(getSurvivingNations());
-            if ((worldSurvivingPeople.size() >= 2) && (survivingNations.size() > 1))
-            {
+            if ((worldSurvivingPeople.size() >= 2) && (survivingNations.size() > 1)) {
                 playOneRound(worldSurvivingPeople);
-            }
-            else
-            {
+            } else {
                 System.out.print("Game is over! Winning Nation is: ");
                 if (survivingNations.size() == 0) {
                     System.out.println("All Nations Distroyed.");
@@ -66,7 +65,6 @@ public class World
                 break;
             }
         }
-
     }
 
 
@@ -142,6 +140,7 @@ public class World
      */
     public void encounter(Integer person1, Integer person2)
     {
+        ArrayList<Integer> peopleDamage = new ArrayList<Integer>();
         Integer person1LifePointsToUse;
         Integer person2LifePointsToUse;
         System.out.println("Encounter: " + worldCreatedPeople.get(person1) + worldCreatedPeople.get(person2));
@@ -152,8 +151,9 @@ public class World
         person2LifePointsToUse = worldCreatedPeople.get(person2).encounterStrategy(worldCreatedPeople.get(person1));
 
         // amount of life points actually used is subject to a psuedo-random encounter
-        Integer p1damage =  (int) (Dice.roll(person1LifePointsToUse));
-        Integer p2damage =  (int) (Dice.roll(person2LifePointsToUse));
+        this.p1damage =  (int) (Dice.roll(person1LifePointsToUse));
+        this.p2damage =  (int) (Dice.roll(person2LifePointsToUse));
+
 
         if ((p1damage > 0) && (p2damage > 0))  // person 1  and person 2 are fighting and inflicting damage
         {
@@ -222,9 +222,9 @@ public class World
             // Both people lose 1 life point per encounter due to aging, ignores Special Encounters
             worldCreatedPeople.get(person1).modifyLifePoints((-1));
             worldCreatedPeople.get(person2).modifyLifePoints((-1));
-
         }
     }
+
 
     /**
      * This method plays every round and prints out the round number
@@ -237,15 +237,22 @@ public class World
         Integer numberOfCombatants;
         Collections.shuffle(combatants);
         numberOfCombatants = combatants.size() - 1;
-        this.combatantIndex = 0;
-        while(combatantIndex < numberOfCombatants)
+        combatantIndex = 0;
+
+        while (combatantIndex < numberOfCombatants)
         {
             gui.update(worldCreatedPeople.get(combatants.get(combatantIndex)), worldCreatedPeople.get(combatants.get(combatantIndex+1)));
-            gui.getContinueButton().addActionListener(e -> {
+            gui.getRollDiceButton().addActionListener(e -> {
                 encounter(combatants.get(combatantIndex), combatants.get(combatantIndex+1));
+                gui.getRollDiceButton().setEnabled(false);
+                gui.getContinueButton().setEnabled(true);
+            });
+            gui.getContinueButton().addActionListener(e -> {
                 combatantIndex = combatantIndex + 2;
             });
+
         }
+
     }
 
 }

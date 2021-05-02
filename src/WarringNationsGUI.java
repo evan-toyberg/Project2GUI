@@ -6,8 +6,8 @@ public class WarringNationsGUI extends Thread {
     private JButton rollDiceButton;
     private JButton continueButton;
     private JPanel panel1;
-    private JList<String> player1Stats;
-    private JList<String> player2Stats;
+    private JList player1Stats;
+    private JList player2Stats;
     private JLabel player1Image;
     private JLabel player2Image;
     private JLabel nation1Text;
@@ -25,7 +25,9 @@ public class WarringNationsGUI extends Thread {
     private People player1;
     private People player2;
     private World world;
-    private ArrayList <People> survivors;
+    private int initialPlayer1;
+    private int initialPlayer2;
+    private Image image;
 
 
     public WarringNationsGUI()
@@ -35,6 +37,16 @@ public class WarringNationsGUI extends Thread {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1200, 800);
         frame.setVisible(true);
+    }
+
+    public JLabel getP1DamageTakenLabel()
+    {
+        return this.p1DamageTakenLabel;
+    }
+
+    public JLabel getP2DamageTakenLabel()
+    {
+        return this.p2DamageTakenLabel;
     }
 
     public JButton getRollDiceButton()
@@ -63,6 +75,9 @@ public class WarringNationsGUI extends Thread {
         setPlayerImage(player1Image, String.valueOf(player1.getType()));
         setPlayerImage(player2Image, String.valueOf(player2.getType()));
 
+        this.initialPlayer1 = player1.getLifePoints();
+        this.initialPlayer2 = player2.getLifePoints();
+
         // show player stats in JList
         player1Stats.setListData(player1.getData());
         player2Stats.setListData(player2.getData());
@@ -70,37 +85,23 @@ public class WarringNationsGUI extends Thread {
         nation1Text.setText(player1.getNation() + " " + player1.getType());
         nation2Text.setText(player2.getNation() + " " + player2.getType());
 
-        rollDiceButton.addActionListener(e -> {
+        getRollDiceButton().addActionListener(e -> {
             postEncounter(player1, player2);
-            rollDiceButton.setEnabled(false);
-            continueButton.setEnabled(true);
-
         });
-
-
-        continueButton.addActionListener(e -> {
-            rollDiceButton.setEnabled(true);
-            continueButton.setEnabled(false);
-            world.war();
+        getContinueButton().addActionListener(e -> {
+            getRollDiceButton().setEnabled(true);
+            getContinueButton().setEnabled(false);
         });
     }
 
     public void postEncounter(People player1, People player2)
     {
-        this.player1 = player1;
-        this.player2 = player2;
-
-        /*int p1DamageTaken = random(player1) / 2;
-        int p2DamageTaken = random(player2) / 2;
-
-        player1.setLifePoints(player1.getLifePoints() - p1DamageTaken);
-        player2.setLifePoints(player2.getLifePoints() - p2DamageTaken);*/
 
         player1Stats.setListData(player1.getData());
         player2Stats.setListData(player2.getData());
 
-        this.p1DamageTakenLabel.setText(player1.getNation() + " " + player1.getType() + " Took 10 Damage");
-        this.p2DamageTakenLabel.setText(player2.getNation() + " " +  player2.getType() + " Took 10 Damage");
+        //this.p1DamageTakenLabel.setText(String.valueOf(4));
+        //this.p2DamageTakenLabel.setText(String.valueOf(4));
     }
 
 
@@ -115,7 +116,7 @@ public class WarringNationsGUI extends Thread {
         Image image;
         switch(playerType) {
             case WIZARD:  // simulates a wizard
-                image = new ImageIcon(this.getClass().getResource("Images/WarringNationsWizard.jpg"))
+                image = new ImageIcon(this.getClass().getResource("Images/wizard.gif"))
                         .getImage().getScaledInstance(200,300, Image.SCALE_SMOOTH);
                 break;
             case WARRIOR:  //simulate warrior

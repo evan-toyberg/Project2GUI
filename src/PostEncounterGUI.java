@@ -27,7 +27,7 @@ public class PostEncounterGUI {
 
         // this manually sets lifepoints for players FOR THE PURPOSE OF THE DEMO
         // TODO before implementing into project, this will need to be changed
-        int p1DamageTaken = random(player1) / 2;
+       /* int p1DamageTaken = random(player1) / 2;
         int p2DamageTaken = random(player2) / 2;
 
         player1.setLifePoints(player1.getLifePoints() - p1DamageTaken);
@@ -38,7 +38,7 @@ public class PostEncounterGUI {
 
         this.p1DamageTaken.setText(player1.getNation() + " " + player1.getType() + " Took " + p1DamageTaken + " Damage");
         this.p2DamageTaken.setText(player2.getNation() + " " +  player2.getType() + " Took " + p2DamageTaken + " Damage");
-
+*/
     }
 
     Random rand = new Random();
