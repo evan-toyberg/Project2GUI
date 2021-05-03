@@ -7,18 +7,15 @@ import java.util.*;
  * Prints out the surviving nation or no nations.
  * Operates the damage of the two players.
  */
-public class World
+public class World extends Thread
 {
     private final int worldLifePoints = 9000;
     private final int numberOfRounds = 100000;
     private ArrayList<Nation> allNations = new ArrayList<>();
     private ArrayList<Nation> allLivingNations = new ArrayList<>();
-    private ArrayList<People> Player1s = new ArrayList<>();
-    private ArrayList<People> Player2s = new ArrayList<>();
+
+    public int combatantIndex;
     private WarringNationsGUI gui = new WarringNationsGUI();
-    private int combatantIndex;
-    private Integer p1damage;
-    private Integer p2damage;
 
     //Random generator;
     // Use Dice.roll(int sides) instead of random number generator
@@ -55,6 +52,7 @@ public class World
                 System.out.print("Game is over! Winning Nation is: ");
                 if (survivingNations.size() == 0) {
                     System.out.println("All Nations Distroyed.");
+
                 } else {
                     System.out.println(survivingNations);
                     System.out.println("The survivors are:");
@@ -62,6 +60,7 @@ public class World
                         System.out.println(worldCreatedPeople.get(worldSurvivingPeople.get(i)));
                     }
                 }
+                GameOverGUI gameOverGUI = new GameOverGUI(survivingNations);
                 break;
             }
         }
@@ -140,7 +139,6 @@ public class World
      */
     public void encounter(Integer person1, Integer person2)
     {
-        ArrayList<Integer> peopleDamage = new ArrayList<Integer>();
         Integer person1LifePointsToUse;
         Integer person2LifePointsToUse;
         System.out.println("Encounter: " + worldCreatedPeople.get(person1) + worldCreatedPeople.get(person2));
@@ -151,9 +149,8 @@ public class World
         person2LifePointsToUse = worldCreatedPeople.get(person2).encounterStrategy(worldCreatedPeople.get(person1));
 
         // amount of life points actually used is subject to a psuedo-random encounter
-        this.p1damage =  (int) (Dice.roll(person1LifePointsToUse));
-        this.p2damage =  (int) (Dice.roll(person2LifePointsToUse));
-
+        Integer p1damage =  (int) (Dice.roll(person1LifePointsToUse));
+        Integer p2damage =  (int) (Dice.roll(person2LifePointsToUse));
 
         if ((p1damage > 0) && (p2damage > 0))  // person 1  and person 2 are fighting and inflicting damage
         {
@@ -223,6 +220,14 @@ public class World
             worldCreatedPeople.get(person1).modifyLifePoints((-1));
             worldCreatedPeople.get(person2).modifyLifePoints((-1));
         }
+
+        gui.getP1DamageTakenLabel().setText(String.valueOf(p2damage+1));
+        gui.getP2DamageTakenLabel().setText(String.valueOf(p1damage+1));
+        gui.getContinueButton().addActionListener(e -> {
+            combatantIndex = combatantIndex + 2;
+        });
+        //gui.setPlayer1Damage(p1damage);
+        //gui.setPlayer2Damage(p2damage);
     }
 
 
@@ -239,20 +244,15 @@ public class World
         numberOfCombatants = combatants.size() - 1;
         combatantIndex = 0;
 
-        while (combatantIndex < numberOfCombatants)
-        {
-            gui.update(worldCreatedPeople.get(combatants.get(combatantIndex)), worldCreatedPeople.get(combatants.get(combatantIndex+1)));
+        while(combatantIndex < numberOfCombatants) {
+            gui.update(worldCreatedPeople.get(combatants.get(combatantIndex)), worldCreatedPeople.get(combatants.get(combatantIndex + 1)));
             gui.getRollDiceButton().addActionListener(e -> {
-                encounter(combatants.get(combatantIndex), combatants.get(combatantIndex+1));
-                gui.getRollDiceButton().setEnabled(false);
-                gui.getContinueButton().setEnabled(true);
+                encounter(combatants.get(combatantIndex), combatants.get(combatantIndex + 1));
+                gui.ContinueButton();
             });
-            gui.getContinueButton().addActionListener(e -> {
-                combatantIndex = combatantIndex + 2;
-            });
-
         }
-
     }
 
+
 }
+
