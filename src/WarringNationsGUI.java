@@ -2,6 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * GUI for the encounters
+ */
+
 public class WarringNationsGUI extends Thread {
     private JButton rollDiceButton;
     private JButton continueButton;
@@ -94,6 +98,11 @@ public class WarringNationsGUI extends Thread {
         });
     }
 
+    /**
+     * After the encounter set the players data to the new data
+     * @param player1 in encounter
+     * @param player2 in encounter
+     */
     public void postEncounter(People player1, People player2)
     {
 

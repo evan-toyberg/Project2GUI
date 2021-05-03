@@ -9,6 +9,12 @@ public class Plague extends People {
         myDescription = "\tBlack Plague";
     }
 
+    /**
+     * Encounter kills the other persons tribe
+     * @param otherPerson the person being encountered
+     * Reference to opponent
+     * @return life points
+     */
     @Override
     public int encounterStrategy(People otherPerson) {
         // Plague kills the other person

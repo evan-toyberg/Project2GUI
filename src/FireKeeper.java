@@ -1,11 +1,27 @@
+/**
+ * Special character FireKeeper
+ */
+
 public class FireKeeper extends People {
 
+    /**
+     * Constructor
+     * @param nation name
+     * @param tribe name
+     * @param lifePoints of nation
+     */
     FireKeeper(String nation, String tribe, int lifePoints)
     {
         super(nation, tribe, PeopleType.SpecialEncounter, lifePoints);
         myDescription = "\tFireKeeper";
     }
 
+    /**
+     * Encounter strategy for FireKeeper
+     * @param otherPerson
+     * Reference to opponent
+     * @return life points
+     */
     public int encounterStrategy(People otherPerson) {
 
         if (otherPerson.getNation() != this.getNation()) // if the otherPerson isn't another special encounter
