@@ -122,25 +122,31 @@ public class WarringNationsGUI extends Thread {
      * @param playerType
      */
     public void setPlayerImage(JLabel playerImage, String playerType){
+        ImageIcon gif;
         Image image;
         switch(playerType) {
-            case WIZARD:  // simulates a wizard
-                image = new ImageIcon(this.getClass().getResource("Images/wizard.gif"))
-                        .getImage().getScaledInstance(200,300, Image.SCALE_SMOOTH);
+            case "wizard":  // simulates a wizard
+                gif = new ImageIcon(this.getClass().getResource("Images/wizard.gif"));
+                playerImage.setIcon(gif);
+
                 break;
-            case WARRIOR:  //simulate warrior
+            case "warrior":  //simulate warrior
                 image = new ImageIcon(this.getClass().getResource("Images/WarringNationsWarrior.jpg"))
                         .getImage().getScaledInstance(350,300, Image.SCALE_SMOOTH);
+                playerImage.setIcon(new ImageIcon(image));
                 break;
-            case HEALER:  //simulate healer
+            case "healer":  //simulate healer
                 image = new ImageIcon(this.getClass().getResource("Images/WarringNationsHealer.png"))
                         .getImage().getScaledInstance(400,300, Image.SCALE_SMOOTH);
+                playerImage.setIcon(new ImageIcon(image));
                 break;
             default: // random encounters
                 image = new ImageIcon(this.getClass().getResource("Images/WarringNationsRandomEncounter.png"))
                         .getImage().getScaledInstance(100,300, Image.SCALE_SMOOTH);
+                playerImage.setIcon(new ImageIcon(image));
+
                 break;
         }
-        playerImage.setIcon(new ImageIcon(image));
+
     }
 }
