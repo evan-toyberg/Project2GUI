@@ -221,8 +221,16 @@ public class World extends Thread
             worldCreatedPeople.get(person2).modifyLifePoints((-1));
         }
 
-        gui.getP1DamageTakenLabel().setText(String.valueOf(p2damage+1));
-        gui.getP2DamageTakenLabel().setText(String.valueOf(p1damage+1));
+        if (p1damage == 0 && p2damage == 0)
+        {
+            gui.getP1DamageTakenLabel().setText(String.valueOf(0));
+            gui.getP2DamageTakenLabel().setText(String.valueOf(0));
+        }
+        else
+        {
+            gui.getP1DamageTakenLabel().setText(String.valueOf(p2damage+1));
+            gui.getP2DamageTakenLabel().setText(String.valueOf(p1damage+1));
+        }
         gui.getContinueButton().addActionListener(e -> {
             combatantIndex = combatantIndex + 2;
         });
